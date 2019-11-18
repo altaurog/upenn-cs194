@@ -1,0 +1,50 @@
+name:                upenn-cs194
+version:             0.1.0.0
+github:              "altaurog/upenn-cs194"
+license:             BSD3
+author:              "Aryeh Leib Taurog"
+maintainer:          "python@aryehleib.com"
+copyright:           "2019 Aryeh Leib Taurog"
+
+extra-source-files:
+- README.rst
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Notes and homework solutions, upenn cs 194
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  upenn-cs194-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - upenn-cs194
+
+tests:
+  upenn-cs194-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - upenn-cs194
+    - HUnit
+    - tasty
+    - tasty-hunit
