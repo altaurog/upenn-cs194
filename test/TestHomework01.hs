@@ -4,12 +4,14 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 import Luhn
+import Hanoi
 
 tests :: TestTree
 tests = testGroup "Homework 01"
     [ testEx01
     , testEx02
     , testEx04
+    , testEx05
     ]
 
 testEx01 :: TestTree
@@ -46,6 +48,14 @@ testEx04 = testGroup "Exercise 4 - validate"
         , (19, False)
         ]
     ]
+
+testEx05 :: TestTree
+testEx05 = testGroup "Exercise 5 - Hanoi"
+    [ param1 "hanoi" h
+        [ (2, [("a", "c"), ("a", "b"), ("c", "b")])
+        ]
+    ]
+    where h = \n -> hanoi n "a" "b" "c"
 
 -- parameterize tests of unary function
 param1 :: (Show a, Show b, Eq b) => String -> (a -> b) -> [(a, b)] -> TestTree
