@@ -9,37 +9,28 @@ tests :: TestTree
 tests = testGroup "Homework 01"
     [ testEx01
     , testEx02
-    , testEx03
     , testEx04
     ]
 
 testEx01 :: TestTree
 testEx01 = testGroup "Exercise 1 - toDigits(Rev)"
     [ param1 "toDigits" toDigits
-        [ (1234, [1, 2, 3, 4])
-        , (0, [0])
-        , (-16, [1, 6])
-        ]
-    , param1 "toDigitsRev" toDigitsRev
         [ (1234, [4, 3, 2, 1])
-        , (0, [0])
+        , (0, [])
         , (-16, [6, 1])
         ]
     ]
 
 testEx02 :: TestTree
-testEx02 = testGroup "Exercise 2 - doubleEven"
-    [ param1 "doubleEven" doubleEven
-        [ ([4, 3, 2, 1], [2, 2, 6, 4])
-        , ([1, 3, 5], [5, 6, 1])
+testEx02 = testGroup "Refactor"
+    [ param1 "digitVal" digitVal
+        [ ((2, True), 4)
+        , ((3, False), 3)
+        , ((8, True), 7)
         ]
-    ]
-
-testEx03 :: TestTree
-testEx03 = testGroup "Exercise 3 - sumDigits"
-    [ param1 "sumDigits" sumDigits
-        [ ([16, 7, 12, 5], (1 + 6 + 7 + 1 + 2 + 5))
-        , ([10, 3, 2], (1 + 3 + 2))
+    , param1 "luhnSum" luhnSum
+        [ ([7, 8, 5, 6], (7 + 1 + 6 + 5 + 1 + 2))
+        , ([3, 5, 1], (3 + 1 + 1))
         ]
     ]
 
