@@ -25,8 +25,8 @@ library:
   source-dirs: src
 
 executables:
-  upenn-cs194-exe:
-    main:                Main.hs
+  check-logs:
+    main:                CheckLogs.hs
     source-dirs:         app
     ghc-options:
     - -threaded
