@@ -20,9 +20,12 @@ description:         Notes and homework solutions, upenn cs 194
 
 dependencies:
 - base >= 4.7 && < 5
+- split
 
 library:
   source-dirs: src
+  dependencies:
+    - split
 
 executables:
   check-logs:
