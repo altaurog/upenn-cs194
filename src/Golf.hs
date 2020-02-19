@@ -2,8 +2,9 @@
 module Golf where
 
 import Control.Arrow ((>>>))
-import Data.List.Split (chunksOf)
-import Data.List (unfoldr)
+import qualified Data.Map.Strict as Map
+import qualified Data.List.Split as Split
+import qualified Data.List as List
 import Data.Maybe
 
 -- Exercise 1
@@ -24,7 +25,7 @@ skips a = map (flip everyNth a) (enumFromTo 1 $ length a)
 everyNth :: Int -> [a] -> [a]
 everyNth n =
     drop (n - 1)
-    >>> chunksOf n
+    >>> Split.chunksOf n
     >>> map listToMaybe
     >>> catMaybes
 
@@ -35,7 +36,7 @@ everyNth n =
  - then use catMaybes to collect the results
  -}
 localMaxima :: Ord a => [a] -> [a]
-localMaxima = catMaybes . unfoldr lmf
+localMaxima = catMaybes . List.unfoldr lmf
 
 {-|
  - unfolding function: look for local maximum at beginning of list
@@ -44,6 +45,42 @@ localMaxima = catMaybes . unfoldr lmf
  -}
 lmf :: Ord a => [a] -> Maybe (Maybe a, [a])
 lmf (x1:x2:x3:xs)
-  | x1 < x2 && x3 < x2  = Just (Just x2, x2:x3:xs)
-  | otherwise           = Just (Nothing, x2:x3:xs)
+    | x1 < x2 && x3 < x2  = Just (Just x2, x2:x3:xs)
+    | otherwise           = Just (Nothing, x2:x3:xs)
 lmf _ = Nothing
+
+
+-- Exercise 3
+{-|
+ - get nonempty bins
+ - then make a numeric histogram
+ - then get size of largest bin
+ - construct histogram horizontally and transpose it
+ -}
+histogram :: [Integer] -> String
+histogram d =
+    let bins = getBins d
+        hist = [ fromMaybe 0 $ Map.lookup x bins | x <- [0 .. 9] ]
+        peak = maximum hist
+        horiz = [ (replicate (peak - x) ' ') ++ (replicate x '*') | x <- hist ]
+        vert = (List.transpose horiz) ++ ["==========", "0123456789", ""]
+    in List.intercalate "\n" vert
+
+{-|
+ - put nonempty histogram bins in Map Integer Int
+ -}
+getBins :: [Integer] -> Map.Map Integer Int
+getBins =
+    filter (\x -> x >= 0 && x < 10)  -- only capture values 0 - 9
+    >>> List.sort
+    >>> List.group                   -- split list into value groups
+    >>> map mapEntry                 -- get (value, count) pairs
+    >>> catMaybes
+    >>> Map.fromList                 -- construct Map
+
+{-|
+ - (value, count) tuple for histogram bins
+ -}
+mapEntry :: [Integer] -> Maybe (Integer, Int)
+mapEntry [] = Nothing
+mapEntry list@(x:_) = Just (x, length list)

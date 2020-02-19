@@ -10,6 +10,7 @@ tests :: TestTree
 tests = testGroup "Homework 03"
     [ testEx01
     , testEx02
+    , testEx03
     ]
 
 testEx01 :: TestTree
@@ -44,5 +45,19 @@ testEx02 = testGroup "Exercise 2 - Local Maxima"
         [ ([2, 9, 5, 6, 1], Just (Just 9, [9, 5, 6, 1]))
         , ([2, 3, 4, 1, 5], Just (Nothing, [3, 4, 1, 5]))
         , ([2, 3], Nothing)
+        ]
+    ]
+
+testEx03 :: TestTree
+testEx03 = testGroup "Exercise 3 - Histogram"
+    [ param1 "histogram" histogram
+        [ ([3, 5],
+            "   * *    \n==========\n0123456789\n")
+        , ([1, 1, 1, 5],
+            " *        \n *        \n *   *    \n==========\n0123456789\n")
+        , ([1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9],
+            "    *     \n    *     \n    * *   \n ******  *\n==========\n0123456789\n")
+        , ([11, 15, -1],
+            "==========\n0123456789\n")
         ]
     ]
