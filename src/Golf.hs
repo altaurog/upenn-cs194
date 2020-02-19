@@ -34,7 +34,7 @@ everyNth n =
  - use unfold to apply unfolding function repeatedly
  - then use catMaybes to collect the results
  -}
-localMaxima :: [Integer] -> [Integer]
+localMaxima :: Ord a => [a] -> [a]
 localMaxima = catMaybes . unfoldr lmf
 
 {-|
