@@ -1,7 +1,8 @@
 module TestHomework02 where
 
 import Test.Tasty
-import Test.Tasty.HUnit
+
+import TestUtil
 
 import Log
 import LogAnalysis
@@ -43,11 +44,3 @@ testEx01 = testGroup "Exercise 1 - parse a single message"
         , ("This is not in the right format", Unknown "This is not in the right format")
         ]
     ]
-
--- parameterize tests of unary function
-param1 :: (Show a, Show b, Eq b) => String -> (a -> b) -> [(a, b)] -> TestTree
-param1 name f testParams =
-    let
-        tname a = name ++ " " ++ (show a)
-        test (a, b) = testCase (tname a) $ f a @?= b
-    in testGroup name $ map test testParams

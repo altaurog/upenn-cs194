@@ -1,7 +1,8 @@
 module TestHomework01 where
 
 import Test.Tasty
-import Test.Tasty.HUnit
+
+import TestUtil
 
 import Luhn
 import Hanoi
@@ -56,11 +57,3 @@ testEx05 = testGroup "Exercise 5 - Hanoi"
         ]
     ]
     where h = \n -> hanoi n "a" "b" "c"
-
--- parameterize tests of unary function
-param1 :: (Show a, Show b, Eq b) => String -> (a -> b) -> [(a, b)] -> TestTree
-param1 name f testParams =
-    let
-        tname a = name ++ " " ++ (show a)
-        test (a, b) = testCase (tname a) $ f a @?= b
-    in testGroup name $ map test testParams
