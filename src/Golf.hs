@@ -3,6 +3,7 @@ module Golf where
 
 import Control.Arrow ((>>>))
 import Data.List.Split (chunksOf)
+import Data.List (unfoldr)
 import Data.Maybe
 
 -- Exercise 1
@@ -26,3 +27,23 @@ everyNth n =
     >>> chunksOf n
     >>> map listToMaybe
     >>> catMaybes
+
+
+-- Exercise 2
+{-|
+ - use unfold to apply unfolding function repeatedly
+ - then use catMaybes to collect the results
+ -}
+localMaxima :: [Integer] -> [Integer]
+localMaxima = catMaybes . unfoldr lmf
+
+{-|
+ - unfolding function: look for local maximum at beginning of list
+ - and move to next position by returning list tail
+ - if list isn’t long enough, signal termination
+ -}
+lmf :: Ord a => [a] -> Maybe (Maybe a, [a])
+lmf (x1:x2:x3:xs)
+  | x1 < x2 && x3 < x2  = Just (Just x2, x2:x3:xs)
+  | otherwise           = Just (Nothing, x2:x3:xs)
+lmf _ = Nothing

@@ -32,3 +32,17 @@ testEx01 = testGroup "Exercise 1 - Hopscotch"
         , (6, [6])
         ]
     ]
+
+testEx02 :: TestTree
+testEx02 = testGroup "Exercise 2 - Local Maxima"
+    [ param1 "localMaxima" localMaxima
+        [ ([2, 9, 5, 6, 1], [9, 6])
+        , ([2, 3, 4, 1, 5], [4])
+        , ([1, 2, 3, 4, 5], [])
+        ]
+    , param1 "lmf" lmf
+        [ ([2, 9, 5, 6, 1], Just (Just 9, [9, 5, 6, 1]))
+        , ([2, 3, 4, 1, 5], Just (Nothing, [3, 4, 1, 5]))
+        , ([2, 3], Nothing)
+        ]
+    ]
