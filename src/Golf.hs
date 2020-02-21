@@ -2,7 +2,6 @@
 module Golf where
 
 import Control.Arrow ((>>>))
-import qualified Data.Map.Strict as Map
 import qualified Data.List.Split as Split
 import qualified Data.List as List
 import Data.Maybe
@@ -52,35 +51,21 @@ lmf _ = Nothing
 
 -- Exercise 3
 {-|
- - get nonempty bins
- - then make a numeric histogram
+ - make a numeric histogram
  - then get size of largest bin
  - construct histogram horizontally and transpose it
  -}
 histogram :: [Integer] -> String
 histogram d =
-    let bins = getBins d
-        hist = [ fromMaybe 0 $ Map.lookup x bins | x <- [0 .. 9] ]
+    let hist = map (count d) [0 .. 9]
         peak = maximum hist
         horiz = [ (replicate (peak - x) ' ') ++ (replicate x '*') | x <- hist ]
         vert = (List.transpose horiz) ++ ["==========", "0123456789", ""]
     in List.intercalate "\n" vert
 
 {-|
- - put nonempty histogram bins in Map Integer Int
+ - count occurrences of item in list
  -}
-getBins :: [Integer] -> Map.Map Integer Int
-getBins =
-    filter (\x -> x >= 0 && x < 10)  -- only capture values 0 - 9
-    >>> List.sort
-    >>> List.group                   -- split list into value groups
-    >>> map mapEntry                 -- get (value, count) pairs
-    >>> catMaybes
-    >>> Map.fromList                 -- construct Map
-
-{-|
- - (value, count) tuple for histogram bins
- -}
-mapEntry :: [Integer] -> Maybe (Integer, Int)
-mapEntry [] = Nothing
-mapEntry list@(x:_) = Just (x, length list)
+count :: Eq a => [a] -> a -> Int
+count a x = foldl f 0 a
+    where f agg v = if v == x then agg + 1 else agg
