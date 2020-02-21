@@ -56,12 +56,13 @@ lmf _ = Nothing
  - construct histogram horizontally and transpose it
  -}
 histogram :: [Integer] -> String
-histogram d =
-    let hist = map (count d) [0 .. 9]
-        peak = maximum hist
-        horiz = [ (replicate (peak - x) ' ') ++ (replicate x '*') | x <- hist ]
-        vert = (List.transpose horiz) ++ ["==========", "0123456789", ""]
-    in List.intercalate "\n" vert
+histogram =
+    count
+    >>> flip map [0 .. 9]
+    >>> horiz
+    >>> List.transpose
+    >>> (++ ["==========", "0123456789", ""])
+    >>> List.intercalate "\n"
 
 {-|
  - count occurrences of item in list
@@ -69,3 +70,10 @@ histogram d =
 count :: Eq a => [a] -> a -> Int
 count a x = foldl f 0 a
     where f agg v = if v == x then agg + 1 else agg
+
+{-|
+ - make a horizontal histogram
+ -}
+horiz :: [Int] -> [String]
+horiz hist = [ (replicate (peak - x) ' ') ++ (replicate x '*') | x <- hist ]
+    where peak = maximum hist
