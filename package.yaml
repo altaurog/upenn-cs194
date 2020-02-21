@@ -30,9 +30,19 @@ library:
     - split
 
 executables:
-  check-logs:
-    main:                CheckLogs.hs
-    source-dirs:         app
+  checklogs:
+    main:                Main.hs
+    source-dirs:         checklogs
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - upenn-cs194
+
+  histogram:
+    main:                Main.hs
+    source-dirs:         histogram
     ghc-options:
     - -threaded
     - -rtsopts
