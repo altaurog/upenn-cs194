@@ -52,6 +52,11 @@ node v a b =
 foldTree :: Ord a => [a] -> Tree a
 foldTree = foldr (flip insert) Leaf
 
+
+toList :: Tree a -> [a]
+toList Leaf = []
+toList (Node _ a v b) = (toList a) ++ (v : (toList b))
+
 -- “accessor” functions
 
 height :: Tree a -> Integer

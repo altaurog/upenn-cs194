@@ -61,5 +61,7 @@ tests:
     dependencies:
     - upenn-cs194
     - HUnit
+    - QuickCheck
     - tasty
     - tasty-hunit
+    - tasty-quickcheck

@@ -1,6 +1,8 @@
 module TestHomework04 where
 
+import qualified Data.List as List
 import Test.Tasty
+import Test.Tasty.QuickCheck as QC
 
 import TestUtil
 
@@ -53,6 +55,12 @@ testEx02 = testGroup "Exercise 2 - AVL Tree"
         , ([10, 20, 30, 40, 50], Node 2 (Node 1 a 20 c) 40 e)
         , ([20, 10, 30, 40, 50], Node 2 (Node 1 a 20 c) 40 e)
         ]
+    , testGroup "tree propery tests"
+        [ QC.testProperty "tree is balanced" $
+            \input -> isBalanced $ foldTree (input :: [Int])
+        , QC.testProperty "tree is ordered" $
+            \input -> (toList $ foldTree (input :: [Int])) ==  List.sort input
+        ]
     ]
     where
         a = Node 0 Leaf 10 Leaf :: Tree Integer
@@ -60,3 +68,10 @@ testEx02 = testGroup "Exercise 2 - AVL Tree"
         c = Node 0 Leaf 30 Leaf
         d = Node 0 Leaf 40 Leaf
         e = Node 0 Leaf 50 Leaf
+
+
+isBalanced :: Tree a -> Bool
+isBalanced Leaf = True
+isBalanced (Node _ a _ b) = case balance a b of
+    EQ -> isBalanced a && isBalanced b
+    _ -> False
