@@ -121,3 +121,15 @@ balance a b
     | height a - height b < -1  = LT
     | height a - height b > 1   = GT
     | otherwise                 = EQ
+
+
+-- Exercise 3
+myXor :: [Bool] -> Bool
+myXor = (foldl (/=) False) . (filter (== True))
+
+myMap :: (a -> b) -> [a] -> [b]
+myMap f = foldr f' []
+    where f' x agg = (f x) : agg
+
+myFoldl :: (a -> b -> a) -> a -> [b] -> a
+myFoldl f base xs = foldr (flip f) base (reverse xs)

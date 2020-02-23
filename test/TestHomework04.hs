@@ -7,11 +7,13 @@ import Test.Tasty.QuickCheck as QC
 import TestUtil
 
 import Idioms
+import qualified Util as Util
 
 tests :: TestTree
 tests = testGroup "Homework 03"
     [ testEx01
     , testEx02
+    , testEx03
     ]
 
 testEx01 :: TestTree
@@ -75,3 +77,27 @@ isBalanced Leaf = True
 isBalanced (Node _ a _ b) = case balance a b of
     EQ -> isBalanced a && isBalanced b
     _ -> False
+
+
+testEx03 :: TestTree
+testEx03 = testGroup "Exercise 3 - xor, map, and foldl as folds"
+    [ QC.testProperty "xor property tests" $
+        \bools -> (myXor (bools :: [Bool])) == (Util.count bools True `mod` 2 == 1)
+    , param1 "xor" myXor
+        [ ([True], True)
+        , ([False], False)
+        , ([True, True], False)
+        , ([True, False], True)
+        , ([False, False], False)
+        , ([False, True, False], True)
+        , ([False, True, False, False, True], False)
+        ]
+    , param1 "map" (myMap (+2))
+        [ ([0, 1, 5] :: [Integer], [2, 3, 7]) ]
+    , param1 "map" (myMap (*2))
+        [ ([0, 1, 5] :: [Integer], [0, 2, 10]) ]
+    , param1 "map" (myMap (>2))
+        [ ([0, 1, 5] :: [Integer], [False, False, True]) ]
+    , param1 "foldl'" (myFoldl (flip (:)) "!")
+        [ ("abc", "cba!") ]
+    ]

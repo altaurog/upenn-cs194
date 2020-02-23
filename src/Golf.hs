@@ -6,6 +6,8 @@ import qualified Data.List.Split as Split
 import qualified Data.List as List
 import Data.Maybe
 
+import qualified Util as Util
+
 -- Exercise 1
 {-|
  - use enumFromTo to construct a list with all the skip distances
@@ -57,19 +59,12 @@ lmf _ = Nothing
  -}
 histogram :: [Integer] -> String
 histogram =
-    count
+    Util.count
     >>> flip map [0 .. 9]
     >>> horiz
     >>> List.transpose
     >>> (++ ["==========", "0123456789", ""])
     >>> List.intercalate "\n"
-
-{-|
- - count occurrences of item in list
- -}
-count :: Eq a => [a] -> a -> Int
-count a x = foldl f 0 a
-    where f agg v = if v == x then agg + 1 else agg
 
 {-|
  - make a horizontal histogram

@@ -5,6 +5,7 @@ import Test.Tasty
 import TestUtil
 
 import Golf
+import qualified Util as Util
 
 tests :: TestTree
 tests = testGroup "Homework 03"
@@ -60,7 +61,7 @@ testEx03 = testGroup "Exercise 3 - Histogram"
         , ([11, 15, -1],
             "==========\n0123456789\n")
         ]
-    , param1 "count" (count [1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9])
+    , param1 "count" (Util.count [1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9])
         [ (1, 1)
         , (4, 4)
         , (0, 0)
