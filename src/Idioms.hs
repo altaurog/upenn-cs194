@@ -108,17 +108,12 @@ insert (Node _ left v right) x
 _insert :: Ord a => a -> (Tree a) -> (Tree a) -> Tree a
 _insert v a b = case balance a b of
     EQ -> node v a b
-    LT -> rotateLeft $ node v a (check LT b)
-    GT -> rotateRight $ node v (check GT a) b
-
-
--- check child node when rotating
-check :: Ord a => Ordering -> Tree a -> Tree a
-check o t@(Node _ a _ b)
-    | o == LT && (height a) > (height b) = rotateRight t
-    | o == GT && (height a) < (height b) = rotateLeft t
-    | otherwise         = t
-check _ t = t
+    LT -> rotateLeft $ node v a (checkRotate (>) rotateRight b)
+    GT -> rotateRight $ node v (checkRotate (<) rotateLeft a) b
+    where
+        checkRotate op rot t@(Node _ left _ right) =
+            if op (height left) (height right) then rot t else t
+        checkRotate _ _ t = t
 
 
 balance :: Tree a -> Tree a -> Ordering
