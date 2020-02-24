@@ -2,12 +2,14 @@ module TestHomework04 where
 
 import qualified Data.List as List
 import Test.Tasty
+import Test.Tasty.HUnit
 import Test.Tasty.QuickCheck as QC
 
 import TestUtil
 
 import AVLTree
 import HigherOrderFunctions
+import Sundaram
 import qualified Util as Util
 
 tests :: TestTree
@@ -15,6 +17,7 @@ tests = testGroup "Homework 03"
     [ testEx01
     , testEx02
     , testEx03
+    , testEx04
     ]
 
 testEx01 :: TestTree
@@ -102,3 +105,18 @@ testEx03 = testGroup "Exercise 3 - xor, map, and foldl as folds"
     , param1 "foldl'" (myFoldl (flip (:)) "!")
         [ ("abc", "cba!") ]
     ]
+
+testEx04 :: TestTree
+testEx04 = testGroup "Exercise 4 - sieve of sundaram"
+    [ testCase "sieveSundaram property" $
+        do assertBool "generates prime numbers" $
+            List.all isPrime $ sieveSundaram 1000
+    , param1 "sieveSundaram" sieveSundaram
+        [ (4, [2, 3, 5, 7]) ]
+    ]
+
+
+isPrime :: Integer -> Bool
+isPrime 2 = True
+isPrime 3 = True
+isPrime n = all ((> 0) . (mod n)) [ 2 .. n - 1]
