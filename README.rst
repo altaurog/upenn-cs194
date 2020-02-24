@@ -1,13 +1,36 @@
 UPenn CIS 194
 =============
 
-Lecture examples and homework solutions
+Homework solutions
 
 Homework 1
 ------------
 
-I like to visualize things, so for
-the Tower of Hanoi exercise, I created
-an `accompanying visualization`_ (with Elm!).
+* Exercises 1 -- 4: ``Luhn.hs``
+
+* Exercise 5: ``Hanoi.hs``
+
+    I like to visualize things, so for
+    the Tower of Hanoi exercise, I created
+    an `accompanying visualization`_ (with Elm!).
 
 .. _accompanying visualization: http://www.aryehleib.com/hanoi/
+
+Homework 2
+------------
+
+* Exercises 1 -- 5: ``LogAnalysis.hs``
+
+Homework 3
+-----------
+
+* Exercises 1 -- 3: ``Golf.hs``
+
+Homework 4
+-----------
+
+* Exercises 1, 3: ``HigherOrderFunctions.hs``
+
+* Exercise 2: ``AVLTree.hs``
+
+* Exercise 4: ``Sundaram.hs``
