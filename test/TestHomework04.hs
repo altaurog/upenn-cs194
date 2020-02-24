@@ -6,6 +6,7 @@ import Test.Tasty.QuickCheck as QC
 
 import TestUtil
 
+import AVLTree
 import Idioms
 import qualified Util as Util
 
