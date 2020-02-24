@@ -34,3 +34,8 @@ Homework 4
 * Exercise 2: ``AVLTree.hs``
 
 * Exercise 4: ``Sundaram.hs``
+
+Homework 5
+-----------
+
+* Exercises 1 -- 6: ``Calc.hs``
