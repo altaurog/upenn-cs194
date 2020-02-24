@@ -1,4 +1,4 @@
-module Idioms where
+module HigherOrderFunctions where
 
 import Control.Arrow ((>>>))
 

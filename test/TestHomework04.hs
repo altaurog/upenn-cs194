@@ -7,7 +7,7 @@ import Test.Tasty.QuickCheck as QC
 import TestUtil
 
 import AVLTree
-import Idioms
+import HigherOrderFunctions
 import qualified Util as Util
 
 tests :: TestTree
