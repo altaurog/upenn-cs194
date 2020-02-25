@@ -1,10 +1,11 @@
 module TestHomework05 where
 
 import Test.Tasty
+import Test.Tasty.HUnit
 
 import TestUtil
 
-import ExprT
+import qualified ExprT as ET
 import Parser
 import Calc
 import Util
@@ -17,15 +18,16 @@ tests = testGroup "Homework 05"
     , testEx03
     , testEx04
     , testEx05
+    , testEx06
     ]
 
 testEx01 :: TestTree
 testEx01 = testGroup "Exercise 1 - calc version 1"
     [ param1 "eval" eval
-        [ (Lit 1, 1)
-        , (Add (Lit 1) (Lit 7), 8)
-        , (Mul (Lit 3) (Lit 4), 12)
-        , (Mul (Add (Lit 2) (Lit 3)) (Lit 4), 20)
+        [ (ET.Lit 1, 1)
+        , (ET.Add (ET.Lit 1) (ET.Lit 7), 8)
+        , (ET.Mul (ET.Lit 3) (ET.Lit 4), 12)
+        , (ET.Mul (ET.Add (ET.Lit 2) (ET.Lit 3)) (ET.Lit 4), 20)
         ]
     ]
 
@@ -105,3 +107,19 @@ testEx05 = testGroup "Exercise 5 - stack vm"
         run s = do
             program <- maybeToEither "parse error" $ compile s
             VM.stackVM program
+
+
+testEx06 :: TestTree
+testEx06 = testGroup "Exercise 6 - stored values"
+    [ testCase "withVars 3 * 4" $
+        wv (mul (lit 3) (lit 4)) @?= Just 12
+    , testCase "withVars 3 + x" $
+        wv (add (lit 3) (var "x")) @?= Just 9
+    , testCase "withVars x * y" $
+        wv (mul (var "x") (var "y")) @?= Just 18
+    , testCase "withVars x * (x + y)" $
+        wv (mul (var "x") (add (var "x") (var "y"))) @?= Just 54
+    , testCase "withVars 3 + z" $
+        wv (add (lit 3) (var "z")) @?= Nothing
+    ]
+    where wv = withVars [("x", 6), ("y", 3)]
