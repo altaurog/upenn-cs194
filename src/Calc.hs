@@ -1,7 +1,9 @@
+{-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 module Calc where
 
 import ExprT
 import Parser
+import qualified StackVM as VM
 
 -- exercise 1
 eval :: ExprT -> Integer
@@ -55,3 +57,14 @@ instance Expr Mod7 where
     lit = Mod7 . flip mod 7
     add (Mod7 a) (Mod7 b) = lit $ a + b
     mul (Mod7 a) (Mod7 b) = lit $ a * b
+
+-- exercise 5
+instance Expr VM.Program where
+    lit i = [VM.PushI i]
+    add a b = concat [a, b, [VM.Add]]
+    mul a b = concat [a, b, [VM.Mul]]
+
+
+compile :: String -> Maybe VM.Program
+compile = parseExp lit add mul
+

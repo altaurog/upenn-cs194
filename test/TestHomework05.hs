@@ -7,6 +7,8 @@ import TestUtil
 import ExprT
 import Parser
 import Calc
+import Util
+import qualified StackVM as VM
 
 tests :: TestTree
 tests = testGroup "Homework 05"
@@ -14,6 +16,7 @@ tests = testGroup "Homework 05"
     , testEx02
     , testEx03
     , testEx04
+    , testEx05
     ]
 
 testEx01 :: TestTree
@@ -87,3 +90,18 @@ testEx04 = testGroup "Exercise 4 - new instances"
         ]
     ]
     where test s = param1 s (parseExp lit add mul)
+
+
+testEx05 :: TestTree
+testEx05 = testGroup "Exercise 5 - stack vm"
+    [ param1 "stack vm" run
+        [ ("1", Right (VM.IVal 1))
+        , ("1 + 7", Right (VM.IVal 8))
+        , ("3 * 4", Right (VM.IVal 12))
+        , ("(3 * -4) + 5", Right (VM.IVal (-7)))
+        ]
+    ]
+    where
+        run s = do
+            program <- maybeToEither "parse error" $ compile s
+            VM.stackVM program
