@@ -24,3 +24,19 @@ streamMap f (Cons a b) = Cons (f a) (streamMap f b)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed f x = Cons x (streamFromSeed f $ f x)
+
+-- exercise 5
+nats :: Stream Integer
+nats = streamFromSeed (+1) 0
+
+ruler :: Stream Integer
+ruler = r 0
+    where
+        r n = interleaveStreams (streamRepeat n) (r $ n + 1)
+
+-- pattern-match on both streams would force strictness
+-- in recursive stream definition
+-- see https://stackoverflow.com/a/37179658/519015
+interleaveStreams :: Stream a -> Stream a -> Stream a
+interleaveStreams (Cons a xs) ys =
+    Cons a (interleaveStreams ys xs)

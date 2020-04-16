@@ -15,6 +15,7 @@ tests = testGroup "Homework 06"
     , testEx02a
     , testEx03
     , testEx04
+    , testEx05
     ]
 
 testEx01 :: TestTree
@@ -86,6 +87,9 @@ testEx02a = localOption (mkTimeout 1) $ testGroup "Exercise 2 - Faster Fibonacci
             ]
     ]
 
+allOne :: Stream Integer
+allOne = Cons 1 allOne
+
 testEx03 :: TestTree
 testEx03 = testGroup "Exercise 3 - Stream data type"
     [ testCase "streamToList" $
@@ -93,7 +97,9 @@ testEx03 = testGroup "Exercise 3 - Stream data type"
     , testCase "show instance" $
         show allOne @?= "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...]"
     ]
-    where allOne = Cons 1 allOne
+
+allTwo :: Stream Integer
+allTwo = streamRepeat 2
 
 testEx04 :: TestTree
 testEx04 = testGroup "Exercise 4 - Stream manipulation"
@@ -104,4 +110,21 @@ testEx04 = testGroup "Exercise 4 - Stream manipulation"
     , testCase "streamFromSeed" $
         take 5 (streamToList $ streamFromSeed (*2) 1) @?= [1, 2, 4, 8, 16]
     ]
-    where allTwo = streamRepeat 2
+
+alternating :: Stream Integer
+alternating = interleaveStreams allOne allTwo
+
+testEx05 :: TestTree
+testEx05 = testGroup "Exercise 5 - Stream generation"
+    [ testCase "nats" $
+        take 5 (streamToList nats) @?= [0..4]
+    , testCase "interleaveStreams" $
+        take 6 (streamToList alternating) @?= [1, 2, 1, 2, 1, 2]
+    , testCase "ruler" $
+        take 64 (streamToList ruler) @?= [
+            0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0,
+            1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1,
+            0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+            6
+        ]
+    ]
