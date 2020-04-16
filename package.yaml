@@ -22,12 +22,14 @@ dependencies:
 - base >= 4.7 && < 5
 - containers
 - split
+- memoize
 
 library:
   source-dirs: src
   dependencies:
     - containers
     - split
+    - memoize
 
 executables:
   checklogs:
