@@ -30,7 +30,7 @@ fibs2 = map fib2 [0..]
  - but do need additional state (penultimate value)
  -}
 fibs2' :: [Integer]
-fibs2' = map fst $ fm (0, 1)
+fibs2' = map fst $ iterate fm (0, 1)
 
-fm :: (Integer, Integer) -> [(Integer, Integer)]
-fm (a, b) = (a, b) : (fm (b, a + b))
+fm :: (Integer, Integer) -> (Integer, Integer)
+fm (a, b) = (b, a + b)
