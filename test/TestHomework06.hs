@@ -6,12 +6,15 @@ import Test.Tasty.HUnit
 import TestUtil
 
 import Fibonacci
+import Stream
 
 tests :: TestTree
 tests = testGroup "Homework 06"
     [ testEx01
     , testEx02
     , testEx02a
+    , testEx03
+    , testEx04
     ]
 
 testEx01 :: TestTree
@@ -82,3 +85,23 @@ testEx02a = localOption (mkTimeout 1) $ testGroup "Exercise 2 - Faster Fibonacci
             , 377
             ]
     ]
+
+testEx03 :: TestTree
+testEx03 = testGroup "Exercise 3 - Stream data type"
+    [ testCase "streamToList" $
+        take 3 (streamToList allOne) @?= [1, 1, 1]
+    , testCase "show instance" $
+        show allOne @?= "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...]"
+    ]
+    where allOne = Cons 1 allOne
+
+testEx04 :: TestTree
+testEx04 = testGroup "Exercise 4 - Stream manipulation"
+    [ testCase "streamRepeat" $
+        take 5 (streamToList allTwo) @?= [2, 2, 2, 2, 2]
+    , testCase "streamMap" $
+        take 5 (streamToList $ streamMap (+3) allTwo) @?= [5, 5, 5, 5, 5]
+    , testCase "streamFromSeed" $
+        take 5 (streamToList $ streamFromSeed (*2) 1) @?= [1, 2, 4, 8, 16]
+    ]
+    where allTwo = streamRepeat 2
