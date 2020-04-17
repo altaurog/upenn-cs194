@@ -5,14 +5,14 @@ module Stream where
 data Stream a = Cons a (Stream a)
 
 instance Show a => Show (Stream a) where
-    show s = "[" ++ showStream 0 s ++ "]"
+    show s = "[" ++ showStream 20 s ++ "]"
 
 streamToList :: Stream a -> [a]
 streamToList (Cons a b) = a : streamToList b
 
 showStream :: Show a => Integer -> Stream a -> String
 showStream n (Cons a b)
-    | n < 20    = show a ++ ", " ++ showStream (n+1) b
+    | n > 0     = show a ++ ", " ++ showStream (n-1) b
     | otherwise = "..."
 
 -- exercise 4

@@ -94,6 +94,8 @@ testEx03 :: TestTree
 testEx03 = testGroup "Exercise 3 - Stream data type"
     [ testCase "streamToList" $
         take 3 (streamToList allOne) @?= [1, 1, 1]
+    , testCase "showStream" $
+        showStream 4 allOne @?= "1, 1, 1, 1, ..."
     , testCase "show instance" $
         show allOne @?= "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...]"
     ]
