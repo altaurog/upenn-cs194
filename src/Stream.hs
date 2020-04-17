@@ -1,5 +1,7 @@
 module Stream where
 
+import qualified Data.List as L
+
 -- Homework 6
 -- exercise 3
 data Stream a = Cons a (Stream a)
@@ -10,10 +12,14 @@ instance Show a => Show (Stream a) where
 streamToList :: Stream a -> [a]
 streamToList (Cons a b) = a : streamToList b
 
-showStream :: Show a => Integer -> Stream a -> String
-showStream n (Cons a b)
-    | n > 0     = show a ++ ", " ++ showStream (n-1) b
-    | otherwise = "..."
+streamTake :: Int -> Stream a -> [a]
+streamTake n = take n . streamToList
+
+showStream :: Show a => Int -> Stream a -> String
+showStream n s =
+    let xs = streamTake n s
+        str = L.intercalate ", " $ map show xs
+    in str ++ ", ..."
 
 -- exercise 4
 streamRepeat :: a -> Stream a

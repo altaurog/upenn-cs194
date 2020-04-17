@@ -94,6 +94,8 @@ testEx03 :: TestTree
 testEx03 = testGroup "Exercise 3 - Stream data type"
     [ testCase "streamToList" $
         take 3 (streamToList allOne) @?= [1, 1, 1]
+    , testCase "streamTake" $
+        streamTake 3 allOne @?= [1, 1, 1]
     , testCase "showStream" $
         showStream 4 allOne @?= "1, 1, 1, 1, ..."
     , testCase "show instance" $
@@ -106,11 +108,11 @@ allTwo = streamRepeat 2
 testEx04 :: TestTree
 testEx04 = testGroup "Exercise 4 - Stream manipulation"
     [ testCase "streamRepeat" $
-        take 5 (streamToList allTwo) @?= [2, 2, 2, 2, 2]
+        streamTake 5 allTwo @?= [2, 2, 2, 2, 2]
     , testCase "streamMap" $
-        take 5 (streamToList $ streamMap (+3) allTwo) @?= [5, 5, 5, 5, 5]
+        streamTake 5 (streamMap (+3) allTwo) @?= [5, 5, 5, 5, 5]
     , testCase "streamFromSeed" $
-        take 5 (streamToList $ streamFromSeed (*2) 1) @?= [1, 2, 4, 8, 16]
+        streamTake 5 (streamFromSeed (*2) 1) @?= [1, 2, 4, 8, 16]
     ]
 
 alternating :: Stream Integer
@@ -119,11 +121,11 @@ alternating = interleaveStreams allOne allTwo
 testEx05 :: TestTree
 testEx05 = testGroup "Exercise 5 - Stream generation"
     [ testCase "nats" $
-        take 5 (streamToList nats) @?= [0..4]
+        streamTake 5 nats @?= [0..4]
     , testCase "interleaveStreams" $
-        take 6 (streamToList alternating) @?= [1, 2, 1, 2, 1, 2]
+        streamTake 6 alternating @?= [1, 2, 1, 2, 1, 2]
     , testCase "ruler" $
-        take 64 (streamToList ruler) @?= [
+        streamTake 64 ruler @?= [
             0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0,
             1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1,
             0, 2, 0, 1, 0, 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
