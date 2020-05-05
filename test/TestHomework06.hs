@@ -7,6 +7,7 @@ import TestUtil
 
 import Fibonacci
 import Stream
+import Matrix
 
 tests :: TestTree
 tests = testGroup "Homework 06"
@@ -17,6 +18,7 @@ tests = testGroup "Homework 06"
     , testEx04
     , testEx05
     , testEx06
+    , testEx07
     ]
 
 f15 = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
@@ -110,3 +112,20 @@ testEx06 = testGroup "Exercise 6 - generating functions"
         b = streamFromList [-2, 1]
         c = streamFromList [3, 4, 1]
         d = streamFromList [-4, 0, 1]
+
+testEx07 :: TestTree
+testEx07 = testGroup "Exercise 7 - matrices"
+    [ testCase "Matrix multiplication" $
+        a * b @?= c
+    , param1 "fib4" fib4 [(16, 987)]
+    ]
+    where
+        a = Matrix
+                1 2
+                3 4
+        b = Matrix
+                6 3
+                4 2
+        c = Matrix
+                14 7
+                34 17

@@ -1,6 +1,7 @@
 module Fibonacci where
 
 import Data.Function.Memoize
+import Matrix
 import Stream
 
 -- Homework 6
@@ -42,3 +43,14 @@ fibs3 = x / a
     where
         x = streamFromList [0, 1]
         a = streamFromList [1, -1, -1]
+
+-- exercise 7
+fib4 :: Integer -> Integer
+fib4 0 = 0
+fib4 n = matrixElem (f ^ n)
+
+f :: Matrix Integer
+f = Matrix 1 1 1 0
+
+matrixElem :: Matrix a -> a
+matrixElem (Matrix _ a _ _) = a
