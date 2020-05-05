@@ -39,3 +39,11 @@ Homework 5
 -----------
 
 * Exercises 1 -- 6: ``Calc.hs``
+
+Homework 6
+----------
+* Exercises 1, 2, 6, 7: ``Fibonacci.hs``
+
+* Exercises 3 -- 6: ``Stream.hs``
+
+* Exercise 7: ``Matrix.hs``
