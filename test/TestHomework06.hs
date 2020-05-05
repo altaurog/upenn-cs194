@@ -16,75 +16,30 @@ tests = testGroup "Homework 06"
     , testEx03
     , testEx04
     , testEx05
+    , testEx06
     ]
+
+f15 = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
 
 testEx01 :: TestTree
 testEx01 = testGroup "Exercise 1 - Fibonacci"
     [ param1 "fib" fib $ zip
         [0..5] [0, 1, 1, 2, 3, 5]
     , testCase "fibs1" $
-        take 15 fibs1 @?=
-            [ 0
-            , 1
-            , 1
-            , 2
-            , 3
-            , 5
-            , 8
-            , 13
-            , 21
-            , 34
-            , 55
-            , 89
-            , 144
-            , 233
-            , 377
-            ]
+        take 15 fibs1 @?= f15
     ]
 
 testEx02 :: TestTree
 testEx02 = localOption (mkTimeout 2) $ testGroup "Exercise 2 - Faster Fibonacci I"
     [ param1 "fib2" fib2 [(16, 987)]
     , testCase "fibs2" $
-        take 15 fibs2 @?=
-            [ 0
-            , 1
-            , 1
-            , 2
-            , 3
-            , 5
-            , 8
-            , 13
-            , 21
-            , 34
-            , 55
-            , 89
-            , 144
-            , 233
-            , 377
-            ]
+        take 15 fibs2 @?= f15
     ]
 
 testEx02a :: TestTree
 testEx02a = localOption (mkTimeout 1) $ testGroup "Exercise 2 - Faster Fibonacci II"
     [ testCase "fibs2'" $
-        take 15 fibs2' @?=
-            [ 0
-            , 1
-            , 1
-            , 2
-            , 3
-            , 5
-            , 8
-            , 13
-            , 21
-            , 34
-            , 55
-            , 89
-            , 144
-            , 233
-            , 377
-            ]
+        take 15 fibs2' @?= f15
     ]
 
 allOne :: Stream Integer
@@ -132,3 +87,27 @@ testEx05 = testGroup "Exercise 5 - Stream generation"
             6
         ]
     ]
+
+testEx06 :: TestTree
+testEx06 = testGroup "Exercise 6 - generating functions"
+    [ testCase "Num fromInteger" $
+        streamTake 5 (fromInteger 3) @?= [3, 0, 0, 0, 0]
+    , testCase "Num negate" $
+        streamTake 5 (negate allTwo) @?= [-2, -2, -2, -2, -2]
+    , testCase "Num addition" $
+        streamTake 5 (allOne + allTwo) @?= [3, 3, 3, 3, 3]
+    , testCase "Num mulitplication" $
+        streamTake 5 (a * b) @?= [-4, 0, 1, 0, 0]
+    , testCase "Num mulitplication" $
+        streamTake 5 (b * c) @?= [-6, -5, 2, 1, 0]
+    , testCase "Fractional division" $
+        streamTake 5 (d / b) @?= [2, 1, 0, 0, 0]
+    , testCase "fibs3" $
+        streamTake 15 fibs3 @?= f15
+    ]
+    where
+        zero = streamRepeat 0
+        a = Cons 2 (Cons 1 zero)
+        b = Cons (-2) (Cons 1 zero)
+        c = Cons 3 (Cons 4 (Cons 1 zero))
+        d = Cons (-4) (Cons 0 (Cons 1 zero))

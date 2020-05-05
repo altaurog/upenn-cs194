@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -fno-warn-missing-methods #-}
 module Stream where
 
 import qualified Data.List as L
@@ -31,6 +32,7 @@ streamMap f (Cons a b) = Cons (f a) (streamMap f b)
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed f x = Cons x (streamFromSeed f $ f x)
 
+
 -- exercise 5
 nats :: Stream Integer
 nats = streamFromSeed (+1) 0
@@ -46,3 +48,19 @@ ruler = r 0
 interleaveStreams :: Stream a -> Stream a -> Stream a
 interleaveStreams (Cons a xs) ys =
     Cons a (interleaveStreams ys xs)
+
+-- exercise 6
+streamZipWith :: (a -> b -> c) -> Stream a -> Stream b -> Stream c
+streamZipWith f (Cons a b) (Cons c d) =
+    Cons (f a c) (streamZipWith f b d)
+
+instance Num a => Num (Stream a) where
+    fromInteger n = Cons (fromInteger n) (streamRepeat 0)
+    negate s = streamMap (*(-1)) s
+    (+) = streamZipWith (+)
+    (*) (Cons a a') bs@(Cons b b') =
+        Cons (a * b) ((streamMap (*a) b') + (a' * bs))
+
+instance Integral a => Fractional (Stream a) where
+    (/) (Cons a a') (Cons b b') = q
+        where q = Cons (div a b) (streamMap (`div` b) (a' - q * b'))
