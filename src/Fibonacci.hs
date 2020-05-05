@@ -40,5 +40,5 @@ fm (a, b) = (b, a + b)
 fibs3 :: Stream Integer
 fibs3 = x / a
     where
-        x = Cons 0 (Cons 1 (streamRepeat 0))
-        a = Cons 1 (Cons (-1) (Cons (-1) (streamRepeat 0)))
+        x = streamFromList [0, 1]
+        a = streamFromList [1, -1, -1]

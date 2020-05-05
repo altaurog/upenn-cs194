@@ -22,6 +22,10 @@ showStream n s =
         str = L.intercalate ", " $ map show xs
     in str ++ ", ..."
 
+streamFromList :: Num a => [a] -> Stream a
+streamFromList [] = streamRepeat 0
+streamFromList (x:xs) = Cons x (streamFromList xs)
+
 -- exercise 4
 streamRepeat :: a -> Stream a
 streamRepeat x = Cons x (streamRepeat x)

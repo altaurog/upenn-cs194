@@ -106,8 +106,7 @@ testEx06 = testGroup "Exercise 6 - generating functions"
         streamTake 15 fibs3 @?= f15
     ]
     where
-        zero = streamRepeat 0
-        a = Cons 2 (Cons 1 zero)
-        b = Cons (-2) (Cons 1 zero)
-        c = Cons 3 (Cons 4 (Cons 1 zero))
-        d = Cons (-4) (Cons 0 (Cons 1 zero))
+        a = streamFromList [2, 1]
+        b = streamFromList [-2, 1]
+        c = streamFromList [3, 4, 1]
+        d = streamFromList [-4, 0, 1]
